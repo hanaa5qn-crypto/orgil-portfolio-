@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { HERO_VIDEO } from '../data/portfolioData';
+import { HERO } from '../data/content';
 import { ArrowRight } from 'lucide-react';
 
 interface HeroSectionProps {
-  onJoinLab: () => void;
+  onJoin: () => void;
+  onReadStory: () => void;
 }
 
-export const HeroSection: React.FC<HeroSectionProps> = ({ onJoinLab }) => {
+export const HeroSection: React.FC<HeroSectionProps> = ({ onJoin, onReadStory }) => {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -16,18 +18,15 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onJoinLab }) => {
     return () => clearTimeout(timer);
   }, []);
 
-  const letters = [
-    { char: 'P', delay: '0.1s' },
-    { char: 'r', delay: '0.15s' },
-    { char: 'i', delay: '0.2s' },
-    { char: 's', delay: '0.25s' },
-    { char: 'm', delay: '0.3s' },
-    { char: 'a', delay: '0.35s' },
-  ];
+  const letters = HERO.wordmark.split('');
 
   return (
     <section id="hero" className="relative h-screen w-full p-4 md:p-16 box-border flex flex-col justify-end select-none">
-      <div className="absolute inset-4 md:inset-12 rounded-xl overflow-hidden -z-20 border border-[#48473f]/20 shadow-2xl">
+      {/* Full-bleed: inset/rounded/border here made the video read as a framed panel
+          rather than filling the viewport.
+          z-0, not -z-20: a negative z-index paints the video behind App's opaque bg-[#141312],
+          because neither #hero nor App's root div establishes a stacking context. */}
+      <div className="absolute inset-0 overflow-hidden z-0">
         <video
           autoPlay
           loop
@@ -43,29 +42,42 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onJoinLab }) => {
 
       <div className="relative z-10 w-full flex flex-col items-center pb-8 md:pb-12 text-center pointer-events-none">
         <h1 className="font-serif text-[18vw] md:text-[15vw] leading-none text-[#fbf7e4] tracking-tighter w-full overflow-hidden">
-          {letters.map((item, idx) => (
+          {letters.map((char, idx) => (
             <span
               key={idx}
               className={`word-pull-up ${isVisible ? 'visible' : ''}`}
-              style={{ transitionDelay: item.delay }}
+              style={{ transitionDelay: `${0.1 + idx * 0.05}s` }}
             >
-              {item.char}
+              {char}
             </span>
           ))}
-          <sup className={`text-[0.4em] align-top text-[#dedbc8] word-pull-up ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: '0.4s' }}>
-            *
-          </sup>
         </h1>
 
-        <button
-          onClick={onJoinLab}
-          className="mt-6 md:mt-8 flex items-center gap-2 bg-[#fbf7e4] text-[#323124] px-6 py-3 rounded-full text-xs font-semibold uppercase tracking-widest hover:bg-[#dedbc8] hover:scale-105 transition-all pointer-events-auto cursor-pointer shadow-lg group"
+        <p
+          className={`mt-2 text-xs md:text-sm uppercase tracking-[0.3em] text-[#dedbc8] font-body word-pull-up ${isVisible ? 'visible' : ''}`}
+          style={{ transitionDelay: '0.45s' }}
         >
-          <span>Join the lab</span>
-          <span className="w-6 h-6 rounded-full bg-[#323124] text-[#fbf7e4] flex items-center justify-center text-xs group-hover:translate-x-0.5 transition-transform">
-            <ArrowRight size={14} />
-          </span>
-        </button>
+          {HERO.role}
+        </p>
+
+        <div className="mt-6 md:mt-8 flex flex-col sm:flex-row items-center gap-3">
+          <button
+            onClick={onJoin}
+            className="flex items-center gap-2 bg-[#fbf7e4] text-[#323124] px-6 py-3 rounded-full text-xs font-semibold uppercase tracking-widest hover:bg-[#dedbc8] hover:scale-105 transition-all pointer-events-auto cursor-pointer shadow-lg group"
+          >
+            <span>{HERO.cta}</span>
+            <span className="w-6 h-6 rounded-full bg-[#323124] text-[#fbf7e4] flex items-center justify-center text-xs group-hover:translate-x-0.5 transition-transform">
+              <ArrowRight size={14} />
+            </span>
+          </button>
+
+          <button
+            onClick={onReadStory}
+            className="px-6 py-3 rounded-full text-xs font-semibold uppercase tracking-widest text-[#fbf7e4] border border-[#fbf7e4]/30 hover:border-[#fbf7e4] hover:bg-[#fbf7e4]/10 transition-all pointer-events-auto cursor-pointer"
+          >
+            {HERO.ctaSecondary}
+          </button>
+        </div>
       </div>
     </section>
   );

@@ -1,70 +1,40 @@
-export interface Project {
-  id: string;
-  title: string;
-  category: 'Narrative' | 'Commercial' | 'Color Grade' | 'Music Video';
-  year: string;
-  client?: string;
-  role: string;
-  thumbnail: string;
-  videoUrl?: string;
-  description: string;
-  specs: {
-    camera: string;
-    lens: string;
-    colorSpace: string;
-    aspectRatio: string;
-  };
-  tags: string[];
-}
-
-export interface StoryboardScene {
-  id: string;
-  sceneNumber: string;
-  title: string;
-  description: string;
-  shotType: string;
-  cameraMovement: string;
-  imageUrl: string;
-  duration: string;
-}
-
-export interface CritiqueItem {
-  id: string;
-  title: string;
-  timestamp: string;
-  score: number;
-  type: 'Composition' | 'Pacing' | 'Color Balance' | 'Lighting';
-  feedback: string;
-  suggestion: string;
-}
-
-export interface ColorPreset {
-  id: string;
+export interface Community {
+  id: 'crg' | 'limitless' | 'ngu';
   name: string;
+  kicker: string;
   description: string;
-  filterStyle: string;
-  accentColor: string;
-  contrast: number;
-  saturation: number;
-  temperature: number;
+  access: string;
+  ctaLabel: string;
+  /** External join/apply URL. null = not open yet, CTA falls back to the inquiry form. */
+  ctaHref: string | null;
+  /** Short badge shown on the card, e.g. a launch status. */
+  status?: string;
+  accent: string;
 }
 
-export interface JournalArticle {
-  id: string;
-  title: string;
-  subtitle: string;
-  date: string;
-  readTime: string;
-  content: string[];
-  tags: string[];
+/** A partner offer stated by the client, rendered verbatim. */
+export interface PartnerOffer {
+  label: string;
+  body: string;
+  link: string;
+  href: string;
+  code: string;
+  linkLabel: string;
+  codeLabel: string;
+  /** One-line risk disclosure for a leveraged-products promotion. */
+  risk: string;
+}
+
+/** A single contact channel rendered in the footer. */
+export interface ContactLink {
+  label: string;
+  handle: string;
+  href: string;
 }
 
 export interface InquiryFormData {
   name: string;
   email: string;
-  company?: string;
-  serviceType: string;
-  budget: string;
-  timeline: string;
+  community: string;
   details: string;
 }
