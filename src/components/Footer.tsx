@@ -75,7 +75,8 @@ export const Footer: React.FC<FooterProps> = ({ onOpenInquiry }) => {
                   </span>
                   <span className="flex flex-col min-w-0">
                     <span className="text-[10px] tracking-widest uppercase text-[#939187]">{link.label}</span>
-                    <span className="text-xl md:text-2xl font-medium text-[#fbf7e4] truncate">{link.handle}</span>
+                    {/* lg = 3-col grid: step down so @munkhorgilmike doesn't truncate. */}
+                    <span className="text-xl md:text-2xl lg:text-xl font-medium text-[#fbf7e4] truncate">{link.handle}</span>
                   </span>
                 </div>
 

@@ -137,13 +137,15 @@ export const CommunitiesSection: React.FC<CommunitiesSectionProps> = ({ onApply 
 
         {/* XM partner ad — an affiliate promotion, deliberately loud: XM red, glow, big code. */}
         <div className="mt-6 relative overflow-hidden rounded-xl border border-[#FF333C]/30 bg-gradient-to-br from-[#1c1b1a] via-[#141312] to-[#2a1013] p-6 md:p-12">
+          {/* Radial gradients, not blur() divs — blur-3xl under the navbar's backdrop-blur
+              rendered as a hard red crescent on the nav pill while scrolling past. */}
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute -top-32 -right-32 w-[28rem] h-[28rem] rounded-full bg-[#FF333C]/15 blur-3xl"
+            className="pointer-events-none absolute -top-32 -right-32 w-[28rem] h-[28rem] bg-[radial-gradient(closest-side,rgba(255,51,60,0.15),transparent)]"
           />
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute -bottom-40 -left-20 w-80 h-80 rounded-full bg-[#FF333C]/[0.07] blur-3xl"
+            className="pointer-events-none absolute -bottom-40 -left-20 w-80 h-80 bg-[radial-gradient(closest-side,rgba(255,51,60,0.07),transparent)]"
           />
 
           <div className="relative flex flex-col md:flex-row md:items-center gap-6 md:gap-10">
