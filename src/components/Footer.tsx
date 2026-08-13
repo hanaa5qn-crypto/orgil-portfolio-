@@ -8,9 +8,15 @@ interface FooterProps {
 
 // Icon by link label; unknown labels fall back to a plain arrow so an added
 // channel never crashes.
+/** XM's real mark, sized like the lucide icons the other cards use. */
+const XmIcon: React.FC<{ size?: number }> = ({ size = 22 }) => (
+  <img src="/logos/xm.svg" alt="" width={size * 1.4} height={size * 1.4} />
+);
+
 const LINK_ICONS: Record<string, React.ElementType> = {
   Instagram: Instagram,
   YouTube: Youtube,
+  'XM Broker': XmIcon,
 };
 
 export const Footer: React.FC<FooterProps> = ({ onOpenInquiry }) => {
@@ -23,9 +29,16 @@ export const Footer: React.FC<FooterProps> = ({ onOpenInquiry }) => {
             <span className="text-xs font-semibold uppercase tracking-widest text-[#939187] mb-2 block font-body">
               {CONTACT.eyebrow}
             </span>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-medium text-[#fbf7e4] font-headline tracking-tight max-w-xl break-all md:whitespace-nowrap">
-              <a href={CONTACT.headingHref} className="hover:text-[#dedbc8] transition-colors">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-medium text-[#fbf7e4] font-headline tracking-tight max-w-xl">
+              {/* Label, not the raw address — clicking opens Gmail compose to Orgil. */}
+              <a
+                href={CONTACT.headingHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-3 hover:text-[#dedbc8] transition-colors"
+              >
                 {CONTACT.heading}
+                <ArrowUpRight className="w-6 h-6 md:w-8 md:h-8 text-[#939187]" />
               </a>
             </h2>
           </div>
@@ -40,7 +53,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenInquiry }) => {
         </div>
 
         {/* Social links */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-12">
           {CONTACT.links.map((link) => {
             const Icon = LINK_ICONS[link.label] ?? ArrowUpRight;
             return (

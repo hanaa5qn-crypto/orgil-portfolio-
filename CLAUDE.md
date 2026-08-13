@@ -33,19 +33,19 @@ grep -rnP "[\x{0400}-\x{04FF}]" src/components/ src/App.tsx   # must return noth
 
 ## Fonts — Cyrillic is a hard constraint
 
-The original fonts (Almarai, Instrument Serif, Be Vietnam Pro) have **zero Cyrillic coverage** and silently fell back to a system font on Mongolian text. They were replaced with **Manrope** (`font-sans`/`font-body`/`font-headline`) and **Playfair Display** (`font-serif`, the ORGIL wordmark). Any font you introduce must serve the Cyrillic subset — check `fonts.googleapis.com/css2?family=<Name>` for a `cyrillic` unicode-range block before adopting it.
+The original fonts (Almarai, Instrument Serif, Be Vietnam Pro) have **zero Cyrillic coverage** and silently fell back to a system font on Mongolian text. They were replaced with **Inter** (`font-sans`/`font-body`/`font-headline`) and **Playfair Display** (`font-serif`, the ORGIL wordmark). Any font you introduce must serve the Cyrillic subset — check `fonts.googleapis.com/css2?family=<Name>` for a `cyrillic` unicode-range block before adopting it.
 
 ## Architecture
 
 `App.tsx` holds `activeSection` and the inquiry-modal state; sections render Hero → About → Communities → Footer, with `Navbar` fixed above. Navigation is `scrollIntoView` against section ids `hero` / `about` / `communities` / `contact`, and `NAV` in `content.ts` must only ever reference ids that exist — a label/id mismatch was a real bug here.
 
-Community CTAs branch on `Community.ctaHref`: a non-null URL renders an external `<a target="_blank" rel="noopener noreferrer">` (CRG → olula.mn, Limitless → a Google Form), while `null` renders a `<button>` that opens the inquiry form preselected to that community (NGU, which is pre-launch and carries the `status: 'Удахгүй'` badge). `InquiryModal` is presentation-only — it fakes submission with a `setTimeout` and posts nowhere.
+Community CTAs branch on `Community.ctaHref`: a non-null URL renders an external `<a target="_blank" rel="noopener noreferrer">` (CRG → olula.mn, Limitless → a Google Form), while `null` renders a `<button>` that opens the inquiry form preselected to that community (NGU, which is pre-launch and carries the `status: 'Удахгүй'` badge). `InquiryModal` posts to FormSubmit.co (`formsubmit.co/ajax/<email>`), which relays submissions to Orgil's inbox — the first-ever submission sends him a one-time activation email he must click. If the relay fails, it falls back to opening Gmail compose prefilled with the message.
 
 ## Styling and animation
 
 **Tailwind CSS 4** via `@tailwindcss/vite`. There is no `tailwind.config.js` and adding one won't be read — tokens are CSS custom properties in the `@theme` block of `src/index.css`. In practice components hardcode hex values in arbitrary variants: surfaces `#141312` / `#1c1b1a` / `#201f1e`, About card `#101010`, cream `#fbf7e4`, muted `#c9c6bc`, dim `#939187`, borders `#48473f` at low opacity.
 
-`motion` v12 is in `package.json` but **never imported** — every animation is hand-rolled and should stay that way rather than becoming two systems:
+Every animation is hand-rolled (no animation library installed) and should stay that way rather than becoming two systems:
 - `.word-pull-up` toggled to `.visible`, staggered via inline `transitionDelay` (hero wordmark).
 - The About paragraph reveal is a `window` scroll listener computing `scrollProgress` from `getBoundingClientRect()` and setting per-character opacity inline. It re-renders every character per scroll event, unthrottled.
 - `animate-fadeIn` and its keyframes are defined in `index.css` (they were missing, so modals used to pop in with no transition).
@@ -54,7 +54,7 @@ Community CTAs branch on `Community.ctaHref`: a non-null URL renders an external
 
 - **`HeroSection.tsx`: the video container must stay `z-0`.** It was `-z-20`, which painted the video behind App's opaque `bg-[#141312]` — neither `#hero` nor App's root div establishes a stacking context — so the hero rendered as a black rectangle while the video played invisibly underneath. The comment above it explains this; keep both.
 - **Card imagery was deliberately removed.** The only assets available were AI Studio placeholders showing an unrelated product UI branded "Prisma Studio". `portfolioData.ts` now holds just `HERO_VIDEO`. Don't reintroduce stock or generated imagery — wait for Orgil's own assets.
-- `@google/genai`, `express`, and `dotenv` are installed and imported nowhere. `.env` holds a real `GEMINI_API_KEY` that no code reads (`.gitignore` covers `.env*`).
+- `.env` holds a real `GEMINI_API_KEY` that no code reads (`.gitignore` covers `.env*`) — worth revoking.
 - `npm run clean` deletes a `server.js` that doesn't exist.
 
 ## design.md

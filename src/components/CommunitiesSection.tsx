@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { COMMUNITIES, COMMUNITIES_INTRO, PARTNER } from '../data/content';
 import { Community } from '../types';
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight, Check, Copy } from 'lucide-react';
 
 interface CommunitiesSectionProps {
   /** Opens the inquiry form preselected to a community — used when it has no external CTA yet. */
@@ -10,6 +10,31 @@ interface CommunitiesSectionProps {
 
 // No card imagery: the only assets available were AI Studio placeholders showing an
 // unrelated product UI (they read "Prisma Studio"). Text-only cards until Orgil supplies real art.
+
+/** The XM promo code as a click-to-copy chip. Feedback is icon-only (Copy → Check) so no copy strings are invented. */
+const CopyCodeChip: React.FC = () => {
+  const [copied, setCopied] = useState(false);
+  const copy = () => {
+    navigator.clipboard.writeText(PARTNER.code).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    });
+  };
+  return (
+    <button
+      onClick={copy}
+      className="group flex items-center gap-3 px-5 py-3 rounded-full bg-[#201f1e]/80 border border-[#FF333C]/40 hover:border-[#FF333C] transition-colors cursor-pointer"
+    >
+      <span className="text-[10px] uppercase tracking-widest text-[#939187] font-body">{PARTNER.codeLabel}</span>
+      <span className="font-mono text-lg md:text-xl text-[#fbf7e4] tracking-[0.2em]">{PARTNER.code}</span>
+      {copied ? (
+        <Check size={16} className="text-[#FF333C]" />
+      ) : (
+        <Copy size={16} className="text-[#939187] group-hover:text-[#fbf7e4] transition-colors" />
+      )}
+    </button>
+  );
+};
 
 export const CommunitiesSection: React.FC<CommunitiesSectionProps> = ({ onApply }) => {
   return (
@@ -39,15 +64,30 @@ export const CommunitiesSection: React.FC<CommunitiesSectionProps> = ({ onApply 
               >
                 <div className="noise-overlay opacity-[0.04]"></div>
 
+                {/* Logo banner — the image carries the community name, so the h3 is skipped.
+                    Logos ship on a baked-in black background; bg-black blends their edges. */}
+                {community.logo && (
+                  <div className="h-40 bg-black flex items-center justify-center relative z-10 border-b border-[#48473f]/30">
+                    <img
+                      src={community.logo}
+                      alt={community.name}
+                      className="h-full w-full object-contain"
+                      loading="lazy"
+                    />
+                  </div>
+                )}
+
                 {/* Body */}
                 <div className="p-6 md:p-8 flex-1 flex flex-col relative z-10">
                   <div className="flex items-start justify-between gap-3 mb-1">
-                    <h3
-                      className="text-3xl font-medium font-headline"
-                      style={{ color: community.accent }}
-                    >
-                      {community.name}
-                    </h3>
+                    {!community.logo && (
+                      <h3
+                        className="text-3xl font-medium font-headline"
+                        style={{ color: community.accent }}
+                      >
+                        {community.name}
+                      </h3>
+                    )}
                     {community.status && (
                       <span className="shrink-0 mt-1.5 uppercase text-[10px] tracking-widest px-2.5 py-1 rounded-full bg-[#fbf7e4]/10 text-[#fbf7e4] border border-[#fbf7e4]/25">
                         {community.status}
@@ -95,34 +135,48 @@ export const CommunitiesSection: React.FC<CommunitiesSectionProps> = ({ onApply 
           })}
         </div>
 
-        {/* Partner offer — one quiet card, subordinate to the three communities */}
-        <div className="mt-6 bg-[#1c1b1a] border border-[#48473f]/25 rounded-xl p-6 md:p-8">
-          <span className="text-[10px] uppercase tracking-widest text-[#939187] font-body block mb-4">
-            {PARTNER.label}
-          </span>
-          <p className="text-base md:text-lg text-[#e6e2df] font-body leading-relaxed max-w-3xl">
-            {PARTNER.body}
-          </p>
-          <div className="flex flex-wrap items-center gap-6 mt-6">
-            <span className="text-xs md:text-sm text-[#c9c6bc] font-body flex items-center gap-2">
-              {PARTNER.linkLabel}
-              <a
-                href={PARTNER.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-[#fbf7e4] hover:underline"
-              >
-                {PARTNER.link}
-              </a>
-            </span>
-            <span className="text-xs md:text-sm text-[#c9c6bc] font-body flex items-center gap-2">
-              {PARTNER.codeLabel}
-              <span className="font-mono bg-[#201f1e] border border-[#48473f]/40 rounded-md px-3 py-1.5 text-[#fbf7e4] tracking-wider">
-                {PARTNER.code}
+        {/* XM partner ad — an affiliate promotion, deliberately loud: XM red, glow, big code. */}
+        <div className="mt-6 relative overflow-hidden rounded-xl border border-[#FF333C]/30 bg-gradient-to-br from-[#1c1b1a] via-[#141312] to-[#2a1013] p-6 md:p-12">
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute -top-32 -right-32 w-[28rem] h-[28rem] rounded-full bg-[#FF333C]/15 blur-3xl"
+          />
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute -bottom-40 -left-20 w-80 h-80 rounded-full bg-[#FF333C]/[0.07] blur-3xl"
+          />
+
+          <div className="relative flex flex-col md:flex-row md:items-center gap-6 md:gap-10">
+            <img
+              src="/logos/xm.svg"
+              alt="XM"
+              className="w-20 h-20 md:w-28 md:h-28 shrink-0 drop-shadow-[0_0_24px_rgba(255,51,60,0.35)]"
+              loading="lazy"
+            />
+            <div>
+              <span className="text-[10px] uppercase tracking-widest text-[#FF333C] font-body font-semibold block mb-3">
+                {PARTNER.label}
               </span>
-            </span>
+              <p className="text-lg md:text-2xl text-[#fbf7e4] font-body leading-relaxed max-w-3xl">
+                {PARTNER.body}
+              </p>
+            </div>
           </div>
-          <p className="text-[11px] text-[#939187] font-body mt-6">{PARTNER.risk}</p>
+
+          <div className="relative flex flex-wrap items-center gap-4 mt-8 md:pl-[9.5rem]">
+            <a
+              href={PARTNER.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-6 py-3.5 rounded-full bg-[#FF333C] text-white text-xs uppercase font-semibold tracking-widest hover:bg-[#e42931] hover:scale-105 active:scale-95 transition-all flex items-center gap-2 shadow-[0_0_30px_rgba(255,51,60,0.35)]"
+            >
+              <span>{PARTNER.link}</span>
+              <ArrowUpRight size={14} />
+            </a>
+            <CopyCodeChip />
+          </div>
+
+          <p className="relative text-[11px] text-[#939187] font-body mt-8">{PARTNER.risk}</p>
         </div>
       </div>
     </section>

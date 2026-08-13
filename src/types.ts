@@ -9,6 +9,8 @@ export interface Community {
   ctaHref: string | null;
   /** Short badge shown on the card, e.g. a launch status. */
   status?: string;
+  /** Path to the community's logo image (public/). Cards without one fall back to the text name. */
+  logo?: string;
   accent: string;
 }
 

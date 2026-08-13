@@ -1,6 +1,5 @@
 {
-  "name": "Prisma Personal Website",
-  "description": "Personal website and cinematic studio showcase for director Marcus Chen.",
-  "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+  "name": "Мөнх-Оргил.Б — Futures Day Trader",
+  "description": "Personal site for futures day trader Мөнх-Оргил.Б (Orgil) and his trading communities: CRG, Limitless, and NGU.",
+  "requestFramePermissions": []
 }

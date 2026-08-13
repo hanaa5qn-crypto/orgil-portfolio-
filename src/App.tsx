@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Navbar } from './components/Navbar';
 import { HeroSection } from './components/HeroSection';
 import { AboutSection } from './components/AboutSection';
@@ -28,6 +28,33 @@ export default function App() {
   // Modal States
   const [isInquiryOpen, setIsInquiryOpen] = useState(false);
   const [inquiryCommunity, setInquiryCommunity] = useState<string | undefined>(undefined);
+
+  useEffect(() => {
+    const sectionIds = ['hero', 'about', 'communities', 'contact'];
+    const visibility = new Map<string, number>();
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          visibility.set(entry.target.id, entry.isIntersecting ? entry.intersectionRatio : 0);
+        });
+
+        const mostVisibleSection = sectionIds.reduce((mostVisible, sectionId) =>
+          (visibility.get(sectionId) ?? 0) > (visibility.get(mostVisible) ?? 0)
+            ? sectionId
+            : mostVisible
+        );
+        setActiveSection(mostVisibleSection);
+      },
+      { threshold: Array.from({ length: 101 }, (_, index) => index / 100) }
+    );
+
+    sectionIds.forEach((sectionId) => {
+      const section = document.getElementById(sectionId);
+      if (section) observer.observe(section);
+    });
+
+    return () => observer.disconnect();
+  }, []);
 
   const handleNavigate = (sectionId: string) => {
     setActiveSection(sectionId);

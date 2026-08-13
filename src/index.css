@@ -22,11 +22,11 @@
   --color-secondary: #c8c6c5;
   --color-on-secondary: #313030;
   
-  --font-sans: "Manrope", system-ui, sans-serif;
+  --font-sans: "Inter", system-ui, sans-serif;
   --font-serif: "Playfair Display", Georgia, serif;
-  --font-headline: "Manrope", system-ui, sans-serif;
-  --font-body: "Manrope", system-ui, sans-serif;
-  --font-label: "Manrope", system-ui, sans-serif;
+  --font-headline: "Inter", system-ui, sans-serif;
+  --font-body: "Inter", system-ui, sans-serif;
+  --font-label: "Inter", system-ui, sans-serif;
   --animate-fadeIn: fadeIn 0.25s ease-out;
 }
 
@@ -39,7 +39,7 @@
   body {
     background-color: #141312;
     color: #e6e2df;
-    font-family: "Manrope", system-ui, sans-serif;
+    font-family: "Inter", system-ui, sans-serif;
   }
 }
 
@@ -76,7 +76,7 @@
 
 /* Character Opacity Reveal */
 .char-reveal span {
-  opacity: 0.2;
+  opacity: 0.55;
   transition: opacity 0.15s ease;
 }
 

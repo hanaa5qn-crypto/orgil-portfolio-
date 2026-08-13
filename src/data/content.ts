@@ -39,6 +39,7 @@ export const COMMUNITIES: Community[] = [
   {
     id: 'crg',
     name: 'CRG',
+    logo: '/logos/crg.jpg',
     kicker: 'Public & Private Trading Community',
     // Client's own two lines, verbatim.
     description:
@@ -51,6 +52,7 @@ export const COMMUNITIES: Community[] = [
   {
     id: 'limitless',
     name: 'Limitless',
+    logo: '/logos/limitless.jpg',
     kicker: '10 men community',
     description:
       'Энэ бол миний хувийн, маш өндөр шалгууртай Trading community. Трейдингийн төлөө маш их золиослож, шилдгүүдийн шилдэг болохын төлөө тэмүүлж яваа эрчүүдийг л бид элсүүлж авдаг.',
@@ -97,14 +99,18 @@ export const PARTNER: PartnerOffer = {
 
 export const CONTACT = {
   eyebrow: '03 / Холбогдох',
-  heading: 'munkhorgil193@gmail.com',
-  headingHref: 'mailto:munkhorgil193@gmail.com',
+  // The raw gmail address is deliberately not displayed (Orgil's call — reads
+  // unprofessional). Gmail web compose instead of mailto: — mailto silently
+  // does nothing on machines with no mail client configured.
+  heading: 'Холбоо барих',
+  email: 'munkhorgil193@gmail.com',
+  headingHref: 'https://mail.google.com/mail/?view=cm&to=munkhorgil193@gmail.com',
   cta: 'Холбогдох',
-  // Email is omitted here: it is already the section heading, and listing it twice
-  // in one footer reads as an oversight rather than emphasis.
   links: [
     { label: 'Instagram', handle: '@orgil.wins', href: 'https://instagram.com/orgil.wins' },
     { label: 'YouTube', handle: '@munkhorgilmike', href: 'https://www.youtube.com/@munkhorgilmike/videos' },
+    // Same XM code as the partner card — referenced, not duplicated, so it can never drift.
+    { label: PARTNER.label, handle: PARTNER.code, href: PARTNER.href },
   ] as ContactLink[],
   copyright: '© 2026 Мөнх-Оргил.Б',
 };

@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { InquiryFormData } from '../types';
-import { FORM } from '../data/content';
+import { CONTACT, FORM } from '../data/content';
 import { X, Send, CheckCircle2 } from 'lucide-react';
+
+/**
+ * FormSubmit.co relays the POST to Orgil's inbox — no backend needed.
+ * One-time setup: the first-ever submission emails him an activation link he must click.
+ */
+const FORM_ENDPOINT = `https://formsubmit.co/ajax/${CONTACT.email}`;
 
 interface InquiryModalProps {
   isOpen: boolean;
@@ -22,6 +28,7 @@ export const InquiryModal: React.FC<InquiryModalProps> = ({
   });
 
   const [submitted, setSubmitted] = useState(false);
+  const [sending, setSending] = useState(false);
 
   useEffect(() => {
     if (isOpen && preselectedCommunity) {
@@ -29,10 +36,38 @@ export const InquiryModal: React.FC<InquiryModalProps> = ({
     }
   }, [isOpen, preselectedCommunity]);
 
+  useEffect(() => {
+    if (!isOpen) return;
+    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && onClose();
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [isOpen, onClose]);
+
   if (!isOpen) return null;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (sending) return;
+    setSending(true);
+    try {
+      const res = await fetch(FORM_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify(formData),
+      });
+      if (!res.ok) throw new Error(`formsubmit ${res.status}`);
+    } catch {
+      // Relay down → open Gmail compose prefilled with what they typed, so nothing is lost.
+      const body = (Object.keys(FORM.labels) as (keyof InquiryFormData)[])
+        .map((key) => `${FORM.labels[key]}: ${formData[key]}`)
+        .join('\n');
+      window.open(
+        `${CONTACT.headingHref}&body=${encodeURIComponent(body)}`,
+        '_blank',
+        'noopener,noreferrer',
+      );
+    }
+    setSending(false);
     setSubmitted(true);
     setTimeout(() => {
       setSubmitted(false);
@@ -41,8 +76,17 @@ export const InquiryModal: React.FC<InquiryModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-xl animate-fadeIn">
-      <div className="bg-[#101010] border border-[#fbf7e4]/20 rounded-2xl max-w-2xl w-full p-6 md:p-10 shadow-2xl relative overflow-hidden">
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-xl animate-fadeIn"
+      onClick={onClose}
+    >
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-label={FORM.heading}
+        onClick={(e) => e.stopPropagation()}
+        className="bg-[#101010] border border-[#fbf7e4]/20 rounded-2xl max-w-2xl w-full p-6 md:p-10 shadow-2xl relative overflow-hidden"
+      >
         <div className="noise-overlay opacity-[0.03]"></div>
 
         <button
@@ -129,7 +173,8 @@ export const InquiryModal: React.FC<InquiryModalProps> = ({
 
               <button
                 type="submit"
-                className="w-full py-3 bg-[#fbf7e4] text-[#323124] rounded-full text-xs uppercase font-semibold tracking-widest hover:bg-[#dedbc8] transition-all flex items-center justify-center gap-2 cursor-pointer shadow-xl mt-4"
+                disabled={sending}
+                className="w-full py-3 bg-[#fbf7e4] text-[#323124] rounded-full text-xs uppercase font-semibold tracking-widest hover:bg-[#dedbc8] transition-all flex items-center justify-center gap-2 cursor-pointer shadow-xl mt-4 disabled:opacity-60 disabled:cursor-wait"
               >
                 <span>{FORM.submit}</span>
                 <Send size={14} />

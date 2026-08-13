@@ -6,20 +6,27 @@ export const AboutSection: React.FC = () => {
   const [scrollProgress, setScrollProgress] = useState(0);
 
   useEffect(() => {
+    let ticking = false;
     const handleScroll = () => {
-      if (!textRef.current) return;
-      const rect = textRef.current.getBoundingClientRect();
-      const viewHeight = window.innerHeight;
-      const startReveal = viewHeight * 0.85;
-      const endReveal = viewHeight * 0.35;
+      // rAF-throttled: one measurement per frame instead of per scroll event.
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        ticking = false;
+        if (!textRef.current) return;
+        const rect = textRef.current.getBoundingClientRect();
+        const viewHeight = window.innerHeight;
+        const startReveal = viewHeight * 0.85;
+        const endReveal = viewHeight * 0.35;
 
-      if (rect.top < startReveal && rect.bottom > 0) {
-        const progress = 1 - Math.max(0, Math.min(1, (rect.top - endReveal) / (startReveal - endReveal)));
-        setScrollProgress(progress);
-      }
+        if (rect.top < startReveal && rect.bottom > 0) {
+          const progress = 1 - Math.max(0, Math.min(1, (rect.top - endReveal) / (startReveal - endReveal)));
+          setScrollProgress(progress);
+        }
+      });
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -33,7 +40,7 @@ export const AboutSection: React.FC = () => {
         <div className="bg-[#101010] rounded-2xl p-8 md:p-16 border border-[#48473f]/20 relative overflow-hidden shadow-2xl">
           <div className="noise-overlay opacity-[0.03]"></div>
 
-          <div className="max-w-4xl mx-auto text-center md:text-left relative z-10">
+          <div className="max-w-4xl mr-auto text-left relative z-10">
             <span className="text-xs font-semibold uppercase tracking-widest text-[#939187] mb-4 block font-body">
               {ABOUT.eyebrow}
             </span>
@@ -42,18 +49,24 @@ export const AboutSection: React.FC = () => {
               {ABOUT.intro}
             </p>
 
-            {/* Character Reveal Paragraph */}
+            {/* Character Reveal Paragraph.
+                aria-label carries the whole sentence; the per-char spans are aria-hidden
+                so screen readers don't announce it letter by letter. */}
             <p
               ref={textRef}
-              className="text-lg md:text-2xl text-[#c9c6bc] font-body leading-relaxed char-reveal select-none py-4 border-y border-[#48473f]/20 my-8"
+              aria-label={ABOUT.body}
+              className="text-lg md:text-2xl text-[#c9c6bc] font-body leading-relaxed char-reveal py-4 border-y border-[#48473f]/20 my-8"
             >
               {ABOUT.body.split('').map((char, index) => {
                 const isRevealed = index < revealedCharsCount;
                 return (
                   <span
                     key={index}
+                    aria-hidden="true"
                     style={{
-                      opacity: isRevealed ? 1 : 0.2,
+                      // 0.2 left un-revealed Mongolian text unreadable; 0.55 keeps the
+                      // reveal visible while the paragraph stays legible at any scroll position.
+                      opacity: isRevealed ? 1 : 0.55,
                       color: isRevealed ? '#fbf7e4' : '#c9c6bc',
                       transition: 'opacity 0.15s ease, color 0.15s ease',
                     }}

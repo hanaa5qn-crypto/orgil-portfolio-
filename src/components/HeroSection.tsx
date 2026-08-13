@@ -21,7 +21,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onJoin, onReadStory })
   const letters = HERO.wordmark.split('');
 
   return (
-    <section id="hero" className="relative h-screen w-full p-4 md:p-16 box-border flex flex-col justify-end select-none">
+    <section id="hero" className="relative h-screen w-full p-4 md:p-16 box-border flex flex-col justify-center select-none">
       {/* Full-bleed: inset/rounded/border here made the video read as a framed panel
           rather than filling the viewport.
           z-0, not -z-20: a negative z-index paints the video behind App's opaque bg-[#141312],
@@ -40,8 +40,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onJoin, onReadStory })
         <div className="noise-overlay"></div>
       </div>
 
-      <div className="relative z-10 w-full flex flex-col items-center pb-8 md:pb-12 text-center pointer-events-none">
-        <h1 className="font-serif text-[18vw] md:text-[15vw] leading-none text-[#fbf7e4] tracking-tighter w-full overflow-hidden">
+      <div className="relative z-10 w-full flex flex-col items-center text-center pointer-events-none">
+        {/* pl-[0.05em] cancels tracking-tighter's trailing letter-space, which otherwise
+            pushes centered text half a tracking-unit left of true center. */}
+        <h1 className="font-serif text-[18vw] md:text-[15vw] leading-none text-[#fbf7e4] tracking-tighter w-full overflow-hidden pl-[0.05em]">
           {letters.map((char, idx) => (
             <span
               key={idx}
