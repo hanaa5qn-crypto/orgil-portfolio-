@@ -18,8 +18,6 @@ import { FORM } from './data/content';
 // Which entry of FORM.options.communities a card's CTA preselects in the inquiry form.
 const COMMUNITY_OPTION_INDEX: Record<Community['id'], number> = {
   crg: 0,
-  limitless: 2,
-  ngu: 3,
 };
 
 export default function App() {

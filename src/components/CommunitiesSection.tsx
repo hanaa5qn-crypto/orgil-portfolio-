@@ -52,22 +52,23 @@ export const CommunitiesSection: React.FC<CommunitiesSectionProps> = ({ onApply 
           </h2>
         </div>
 
-        {/* Three equal community cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {/* CRG is the only active community card for now. */}
+        <div className="grid grid-cols-1 gap-6">
           {COMMUNITIES.map((community) => {
+            const isPrimary = community.id === 'crg';
             const ctaClassName =
               'w-full py-3 rounded-full bg-[#fbf7e4] text-[#323124] text-xs uppercase font-semibold tracking-widest hover:bg-[#dedbc8] transition-colors cursor-pointer flex items-center justify-center gap-2';
             return (
               <div
                 key={community.id}
-                className="rounded-xl overflow-hidden bg-[#201f1e] border border-[#fbf7e4]/10 hover:border-[#fbf7e4]/30 hover:-translate-y-1 transition-all duration-500 relative flex flex-col group shadow-2xl"
+                className={`${isPrimary ? 'md:h-[640px]' : ''} rounded-xl overflow-hidden bg-[#201f1e] border border-[#fbf7e4]/10 hover:border-[#fbf7e4]/30 hover:-translate-y-1 transition-all duration-500 relative flex flex-col group shadow-2xl`}
               >
                 <div className="noise-overlay opacity-[0.04]"></div>
 
                 {/* Logo banner — the image carries the community name, so the h3 is skipped.
                     Logos ship on a baked-in black background; bg-black blends their edges. */}
                 {community.logo && (
-                  <div className="h-40 bg-black flex items-center justify-center relative z-10 border-b border-[#48473f]/30">
+                  <div className={`${isPrimary ? 'h-[60%] min-h-[160px]' : 'h-40'} bg-black flex items-center justify-center relative z-10 border-b border-[#48473f]/30`}>
                     <img
                       src={community.logo}
                       alt={community.name}

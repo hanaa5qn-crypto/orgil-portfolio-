@@ -25,14 +25,14 @@ export const ABOUT = {
   eyebrow: '01 / Танилцуулга',
   // Client's own text, verbatim.
   intro:
-    'Мөнх-Оргил.Б — Futures Day Trader, Limitless Private Community, мөн CRG Public & Private Community-үүдийн үүсгэн байгуулагч.',
+    'Мөнх-Оргил.Б — Futures Day Trader, мөн CRG Public & Private Community-үүдийн үүсгэн байгуулагч.',
   body:
     'Би сүүлийн 5 жил хувь хүний хөгжил хийж, 3 дахь жилдээ контент, арилжаа хийж байгаа бөгөөд энэ хугацаанд сурж ойлгосон зүйлсээ та бүхэнтэйгээ хуваалцмаар байна.',
 };
 
 export const COMMUNITIES_INTRO = {
   eyebrow: '02 / Community',
-  heading: 'Миний community-д нэгдэх линкүүд',
+  heading: 'Миний community-д нэгдэх нь',
 };
 
 export const COMMUNITIES: Community[] = [
@@ -43,40 +43,11 @@ export const COMMUNITIES: Community[] = [
     kicker: 'Public & Private Trading Community',
     // Client's own two lines, verbatim.
     description:
-      'Public Community-д маань үнэгүй нэгдээрэй. Харин Private Community нэгдэхийг хүсвэл энэ нь таны арилжааны замналдаа хийх хамгийн шилдэг хөрөнгө оруулалтуудын нэг байх болно.',
+      'Манай Private Community-д нэгдсэнээр та эрсдэлийн менежмент, арилжааны сэтгэл зүй, ICT концепт болон миний стратегийг бүрэн сурах болно. Public Community-д маань үнэгүй нэгдээрэй. Харин Private Community нэгдэхийг хүсвэл энэ нь таны арилжааны замналдаа хийх хамгийн шилдэг хөрөнгө оруулалтуудын нэг байх болно.',
     access: '',
     ctaLabel: 'Join now',
     ctaHref: 'https://olula.mn/en/c/crg-trading-community-by-orgil-wins',
     accent: '#dedbc8',
-  },
-  {
-    id: 'limitless',
-    name: 'Limitless',
-    logo: '/logos/limitless.jpg',
-    kicker: '10 men community',
-    description:
-      'Энэ бол миний хувийн, маш өндөр шалгууртай Trading community. Трейдингийн төлөө маш их золиослож, шилдгүүдийн шилдэг болохын төлөө тэмүүлж яваа эрчүүдийг л бид элсүүлж авдаг.',
-    access: 'Ороход үнэ төлбөргүй',
-    ctaLabel: 'Apply now',
-    ctaHref:
-      'https://docs.google.com/forms/d/e/1FAIpQLSfFkwH4Pi15qScg5qUZbq82gfv2HMnmqjfIKOy9Z_8pOwMv_g/viewform',
-    accent: '#fbf7e4',
-  },
-  {
-    id: 'ngu',
-    name: 'NGU',
-    kicker: 'Self-improvement community',
-    // Client's text opened with "Удхгүй" — read as "Удахгүй" (soon) and surfaced as
-    // the status badge instead of a dangling adverb. Confirm with Orgil.
-    status: 'Удахгүй',
-    description:
-      'Бид хамтдаа ном уншиж, хооллолтоо хянаж, мөрөөдлийн биеэ бүтээж, өөр өөр орнуудад уулзалт зохион байгуулна. Та трейдер байх шаардлагагүй, гэхдээ маш их хүсэл зорилготой байх ёстой.',
-    access: '',
-    ctaLabel: 'Pre-register now',
-    // Unwrapped from the l.instagram.com redirect Orgil sent — that wrapper carries
-    // tracking params and expires; forms.gle is the durable destination.
-    ctaHref: 'https://forms.gle/8wStWuibR5CZwT729',
-    accent: '#c9c6bc',
   },
 ];
 
@@ -124,7 +95,7 @@ export const FORM = {
     details: 'Зурвас',
   },
   options: {
-    communities: ['CRG Public', 'CRG Private', 'Limitless', 'NGU'],
+    communities: ['CRG Public', 'CRG Private'],
   },
   submit: 'Илгээх',
   success: '[TODO: Orgil-оос авах]',

@@ -1,5 +1,5 @@
 export interface Community {
-  id: 'crg' | 'limitless' | 'ngu';
+  id: 'crg';
   name: string;
   kicker: string;
   description: string;
