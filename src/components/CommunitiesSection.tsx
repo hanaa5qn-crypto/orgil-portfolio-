@@ -43,11 +43,11 @@ export const CommunitiesSection: React.FC<CommunitiesSectionProps> = ({ onApply 
 
       <div className="max-w-[1440px] mx-auto relative z-10">
         {/* Section Header */}
-        <div className="mb-12 md:mb-20">
+        <div className="mb-8 md:mb-12">
           <span className="text-xs font-semibold uppercase tracking-widest text-[#939187] mb-2 block font-body">
             {COMMUNITIES_INTRO.eyebrow}
           </span>
-          <h2 className="text-3xl md:text-5xl font-medium text-[#fbf7e4] font-headline tracking-tight max-w-2xl">
+          <h2 className="text-3xl md:text-5xl font-medium text-[#fbf7e4] font-headline tracking-tight md:whitespace-nowrap">
             {COMMUNITIES_INTRO.heading}
           </h2>
         </div>
