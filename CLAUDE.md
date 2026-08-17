@@ -39,7 +39,7 @@ The original fonts (Almarai, Instrument Serif, Be Vietnam Pro) have **zero Cyril
 
 `App.tsx` holds `activeSection` and the inquiry-modal state; sections render Hero → About → Communities → Footer, with `Navbar` fixed above. Navigation is `scrollIntoView` against section ids `hero` / `about` / `communities` / `contact`, and `NAV` in `content.ts` must only ever reference ids that exist — a label/id mismatch was a real bug here.
 
-Community CTAs branch on `Community.ctaHref`: a non-null URL renders an external `<a target="_blank" rel="noopener noreferrer">` (CRG → olula.mn, Limitless → a Google Form), while `null` renders a `<button>` that opens the inquiry form preselected to that community (NGU, which is pre-launch and carries the `status: 'Удахгүй'` badge). `InquiryModal` posts to FormSubmit.co (`formsubmit.co/ajax/<email>`), which relays submissions to Orgil's inbox — the first-ever submission sends him a one-time activation email he must click. If the relay fails, it falls back to opening Gmail compose prefilled with the message.
+Community CTAs branch on `Community.ctaHref`: a non-null URL renders an external `<a target="_blank" rel="noopener noreferrer">` (CRG → Discord invite, Limitless → a Google Form), while `null` renders a `<button>` that opens the inquiry form preselected to that community (NGU, which is pre-launch and carries the `status: 'Удахгүй'` badge). `InquiryModal` posts to FormSubmit.co (`formsubmit.co/ajax/<email>`), which relays submissions to Orgil's inbox — the first-ever submission sends him a one-time activation email he must click. If the relay fails, it falls back to opening Gmail compose prefilled with the message.
 
 ## Styling and animation
 

@@ -46,7 +46,7 @@ export const COMMUNITIES: Community[] = [
       'Public Community-д маань үнэгүй нэгдээрэй. Харин Private Community нэгдэхийг хүсвэл энэ нь таны арилжааны замналдаа хийх хамгийн шилдэг хөрөнгө оруулалтуудын нэг байх болно. Манай Private Community-д нэгдсэнээр та эрсдэлийн менежмент, арилжааны сэтгэл зүй, ICT концепт болон миний стратегийг бүрэн сурах болно.',
     access: '',
     ctaLabel: 'Join now',
-    ctaHref: 'https://olula.mn/en/c/crg-trading-community-by-orgil-wins',
+    ctaHref: 'https://discord.com/invite/ffp2nbs4fX',
     accent: '#dedbc8',
   },
 ];
