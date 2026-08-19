@@ -81,7 +81,7 @@ export default function App() {
       {/* Main Page Sections */}
       <main>
         <HeroSection
-          onJoin={() => openInquiry()}
+          onJoin={() => handleNavigate('communities')}
           onReadStory={() => handleNavigate('about')}
         />
         <AboutSection />

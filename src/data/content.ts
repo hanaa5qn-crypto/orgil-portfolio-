@@ -65,7 +65,7 @@ export const PARTNER: PartnerOffer = {
   // Deliberately kept to one line. A leveraged-products promotion should carry a risk
   // note; everything else (regulator IDs, account specs, bonus mechanics) was cut as
   // over-detailed for a single ad card.
-  risk: 'CFD бол хөшүүрэгтэй бүтээгдэхүүн. Таны хөрөнгө эрсдэлд байна.',
+  risk: 'CFD бол хөшүүрэгтэй бүтээгдэхүүн. Таны хөрөнгө эрсдэлд орж болно.',
 };
 
 export const CONTACT = {
